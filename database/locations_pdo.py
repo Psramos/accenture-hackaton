@@ -26,6 +26,6 @@ class LocationsPDO:
         self.__eng.connect()
 
     def get_locations(self, lat, lon):
-        result = pandas.read_sql_query("SELECT venue_id as id, venue_name as name, type as description, latitude as lat, longitude as lon, rating as score from public.test LIMIT 10", self.__eng)
+        result = pandas.read_sql_query("SELECT venue_id as id, venue_name as name, type as description, latitude as lat, longitude as lon, rating as score from public.test order by rating_fs LIMIT 30", self.__eng)
 
         return result.to_dict(orient='records')
