@@ -35,14 +35,14 @@ class LocationService:
                     is_inside = DistanceCalculator.is_inside(float(lat), float(lon), json_poly)
 
                     if is_inside:
-                        score = location['score']
+                        score = int(location['wheelchair_accessible']) if location['wheelchair_accessible'] else 0
 
                         try:
                             if 'score' in district:
-                               district['score'] += float(score)
+                               district['score'] += score
                                district['total'] += 1
                             else:
-                               district['score'] = float(score)
+                               district['score'] = score
                                district['total'] = 1
 
                         except ValueError:
@@ -50,7 +50,7 @@ class LocationService:
 
         for district in districts:
             if 'score' in district:
-                district['score'] = (district['score'] / district['total']) * 5
+                district['score'] = (float(district['score']) / float(district['total']))
 
         return json.dumps(districts)
 
