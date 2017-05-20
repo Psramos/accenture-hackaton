@@ -128,7 +128,17 @@ function addMarker(item) {
 
 
     html = item.name + "<hr>";
-    html += item.description;
+    html += "Keywords: " + item.description+"<br>";
+    //html += "Rating: " + item.rating;
+
+    numStars = Math.floor(item.rating);
+    if (numStars > 0) html += "Rating: ";
+    var i = 0;
+    while (i < numStars) {
+        html += "<img style='width:15px;height:15px;' src='images/star_full.png'/>"
+        ++i;
+    }
+    if ((item.rating)%1 > 0.5) html += "<img style='width:15px;height:15px;' src='images/star1.png'/>";
 
     var id = item.id;
     var markerLayer = new L.marker([item.lat, item.lon], {icon: icon})
