@@ -24,6 +24,14 @@ class LocationService:
                     "lat":"41.3807892",
                     "lon":"2.1478704",
                     "score": 1
+                },
+                {
+                       "id": "OrSQGJ8j4eQxyZ9pMtNG4FewGE",
+                       "description": "On pasa la magia",
+                       "name": "Paucueva",
+                       "lat": "40.4233873",
+                       "lon": "2.1598064",
+                       "score": 0.4,
                 }
             ]
         )
