@@ -13,13 +13,13 @@ class LocationService:
                     "id": "paraguay",
                     "lat":"41.4172754",
                     "lon":"2.206039",
-                    "score": 50
+                    "score": 0.5
                 },
                 {
                     "id": "bburguer",
                     "lat":"41.3807892",
                     "lon":"2.1478704",
-                    "score": 100
+                    "score": 1
                 }
             ]
         )
