@@ -2,6 +2,7 @@ import json
 import os
 
 from database.locations_pdo import LocationsPDO
+from model.distance_calculator import DistanceCalculator
 
 
 class LocationService:
@@ -9,7 +10,7 @@ class LocationService:
         self.__pdo = LocationsPDO()
         pass
 
-    def get_all_locations(self, lat, lon, distance):
+    def get_all_locations(self):
         self.__pdo.connect()
 
         locations = self.__pdo.get_locations()
@@ -20,6 +21,24 @@ class LocationService:
         self.__pdo.connect()
 
         districts = self.__pdo.get_districts()
+
+        locations = self.__pdo.get_locations()
+
+        for location in locations:
+            for district in districts:
+                json_poly = json.loads(district['poly'])
+
+                lat = location['lat']
+                lon = location['lon']
+
+                if lat and lon:
+                    is_inside = DistanceCalculator.is_inside(float(lat), float(lon), json_poly)
+
+                    if is_inside:
+                       if 'score' in district:
+                           district['score'] += location['score']
+                       else:
+                           district['score'] = location['score']
 
         return json.dumps(districts)
 
