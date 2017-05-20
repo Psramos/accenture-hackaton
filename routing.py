@@ -1,11 +1,7 @@
 import cherrypy
+import os
 
 from model.location_service import LocationService
-
-
-def get_ip_address():
-    return "127.0.0.1"
-
 
 class Locations(object):
     def __init__(self):
@@ -26,6 +22,9 @@ class Locations(object):
         else:
             return self._location_service.get_location(id)
 
-cherrypy.server.socket_host = get_ip_address()
+cherrypy.config.update({'server.socket_host': '127.0.0.1',
+                            'server.socket_port': 8080, })
 
-cherrypy.quickstart(Locations())
+conf = {'/images': {'tools.staticdir.on': True,
+        'tools.staticdir.dir': os.path.abspath('./images/')}}
+cherrypy.quickstart(Locations(), '/', config=conf)
