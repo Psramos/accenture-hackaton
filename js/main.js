@@ -1,27 +1,25 @@
 var map;
 
 var greenIcon = L.icon({
-    iconUrl: '/images/green.png',
+    iconUrl: '/images/Verde.png',
 
-    iconSize: [40, 100], // size of the icon
-    iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
+    iconSize: [50, 70], // size of the icon
+    iconAnchor: [25, 65], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -70] // point from which the popup should open relative to the iconAnchor
 });
 var redIcon = L.icon({
-    iconUrl: '/images/red.png',
-
-
-    iconSize: [40, 100], // size of the icon
-    iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
+    iconUrl: '/images/Rojo.png',
+    iconSize: [50, 70], // size of the icon
+    iconAnchor: [25, 65], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -70] // point from which the popup should open relative to the iconAnchor
 });
 
 var yellowIcon = L.icon({
-    iconUrl: '/images/yellow.png',
+    iconUrl: '/images/Amarillo.png',
 
-    iconSize: [40, 100], // size of the icon
-    iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
+    iconSize: [50, 70], // size of the icon
+    iconAnchor: [25, 65], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -70] // point from which the popup should open relative to the iconAnchor
 });
 
 function addDistrict(item) {
