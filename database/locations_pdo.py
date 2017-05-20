@@ -25,7 +25,13 @@ class LocationsPDO:
                                        encoding='latin1')
         self.__eng.connect()
 
-    def get_locations(self, lat, lon):
-        result = pandas.read_sql_query("SELECT venue_id as id, venue_name as name, type as description, latitude as lat, longitude as lon, rating as score from public.test order by rating_fs LIMIT 30", self.__eng)
+    def get_locations(self):
+        result = pandas.read_sql_query("SELECT venue_id as id, venue_name as name, type as description, latitude as lat, longitude as lon, rating as score from public.test order by rating_fs", self.__eng)
 
         return result.to_dict(orient='records')
+
+    def get_districts(self):
+        result = pandas.read_sql_query("SELECT * from public.districts", self.__eng)
+
+        return result.to_dict(orient='records')
+

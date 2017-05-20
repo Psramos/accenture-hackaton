@@ -23,6 +23,9 @@ class Locations(object):
         else:
             return self._location_service.get_location(id)
 
+    @cherrypy.expose
+    def districts(self):
+        return self._location_service.get_all_districts_score()
 
 cherrypy.config.update({'server.socket_host': '127.0.0.1',
                         'server.socket_port': 8080, })
