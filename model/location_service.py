@@ -31,7 +31,7 @@ class LocationService:
                        "name": "Paucueva",
                        "lat": "40.4233873",
                        "lon": "2.1598064",
-                       "score": 0.4,
+                       "score": 0.3,
                 }
             ]
         )
