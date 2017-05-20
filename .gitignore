@@ -2,3 +2,5 @@
 *.Rhistory
 .idea
 .vagrant
+./model/*.pyc
+*.pyc
