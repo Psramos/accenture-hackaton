@@ -17,9 +17,9 @@ class Locations(object):
         return file("test/mapa.html")
 
     @cherrypy.expose
-    def locations(self, id=None, lat=None, lon=None, distance=None):
+    def locations(self, id=None):
         if id is None:
-            return self._location_service.get_all_locations(lat, lon, distance)
+            return self._location_service.get_all_locations()
         else:
             return self._location_service.get_location(id)
 

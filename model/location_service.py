@@ -39,11 +39,18 @@ class LocationService:
 
                         try:
                             if 'score' in district:
-                               district['score'] += (float(score) % 5)
+                               district['score'] += float(score)
+                               district['total'] += 1
                             else:
-                               district['score'] = (float(score) % 5)
+                               district['score'] = float(score)
+                               district['total'] = 1
+
                         except ValueError:
                             continue
+
+        for district in districts:
+            if 'score' in district:
+                district['score'] = (district['score'] / district['total']) * 5
 
         return json.dumps(districts)
 
