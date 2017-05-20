@@ -26,8 +26,21 @@ var yellowIcon = L.icon({
 
 function addDistrict(item) {
     json = JSON.parse(item.poly)
-
-    var districtLayer = new L.polygon(json, {color: 'red'});
+    color1 = 'white';
+    switch (true) {
+        case item.score > 0.75:
+            color1 = '#55db3d';
+            break;
+        case item.score > 0.6:
+            color1 = '#2a9172';
+            break;
+        case item.score > 0.4:
+            color1 = '#c48819';
+            break;
+        default:
+            color1 = '#c43b19';
+    }
+    var districtLayer = new L.polygon(json, {color: color1});
     markers.push(districtLayer);
     map.addLayer(districtLayer);
 }
@@ -38,7 +51,6 @@ function drawDistricts() {
         context: document.body
     }).done(function (response) {
         var json = JSON.parse(response);
-        debugger
 
         removeMarkers();
 
@@ -55,22 +67,22 @@ function initmap() {
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
     var osm = new L.TileLayer(osmUrl, {minZoom: 12, maxZoom: 18, attribution: osmAttrib});
-    map.setView(new L.LatLng(41.3807852, 2.1478704), 19);
+    map.setView(new L.LatLng(41.3807852, 2.1478704), 17);
     map.addLayer(osm);
 
     map.on("moveend", function () {
-        drawMarkers(200);
-    });
+        if (venues == 1)drawMarkers(500);
+    })
 
 }
 
 function addMarker(item) {
     var icon;
     switch (true) {
-        case (item.score > 4):
+        case (item.wheelchair_accessible > 0.7):
             icon = greenIcon;
             break;
-        case (item.score > 2):
+        case (item.wheelchair_accessiblegit  > 0.5):
             icon = yellowIcon;
             break;
         default:
@@ -143,4 +155,16 @@ if (Number.prototype.toDegrees === undefined) {
     Number.prototype.toDegrees = function () {
         return this * 180 / Math.PI;
     };
+}
+var district = 0;
+var venues = 0;
+function setDistrict() {
+    district = 1;
+    venues = 0;
+    drawDistricts();
+}
+function setVenues(){
+    venues = 1;
+    district = 0;
+    drawMarkers(1000)
 }
