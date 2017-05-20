@@ -4025,6 +4025,10 @@
             border-right-color: #fff;
         }
 
+        html, body {
+            height: 100%;
+        }
+
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -4038,6 +4042,10 @@
 
     function initmap() {
         // set up the map
+        console.log(screen.width)
+        console.log(screen.height)
+
+        //jQuery('#tst').html('<div id="map" style="width:'+screen.width+'px; height: '+screen.height+'px;"></div>');
         map = new L.Map('map');
 
         // create the tile layer with correct attribution
@@ -4046,8 +4054,9 @@
         var osm = new L.TileLayer(osmUrl, {minZoom: 12, maxZoom: 18, attribution: osmAttrib});
 
         // start the map in South-East England
-        map.setView(new L.LatLng(41.3944364, 2.1672282), 13);
+        map.setView(new L.LatLng(41.3807852, 2.1478704), 20);
         map.addLayer(osm);
+
     }
 
     function addMarker(item) {
@@ -4067,16 +4076,16 @@
         html = item.name + "<hr>";
         html += item.description;
         /*
-        var html = "<table>";
+         var html = "<table>";
 
-        html += "<tr>";
-        html += "<td> Name: </td>
-
-
-        html += "</tr>";
+         html += "<tr>";
+         html += "<td> Name: </td>
 
 
-        html += "</table>";*/
+         html += "</tr>";
+
+
+         html += "</table>";*/
         L.marker([item.lat, item.lon], {icon: icon}).addTo(map)
             .bindPopup(html)
     }
@@ -4084,29 +4093,29 @@
     var greenIcon = L.icon({
         iconUrl: '/images/green.png',
 
-        iconSize: [38, 95], // size of the icon
-        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+        iconSize: [40, 100], // size of the icon
+        iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
+        popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
     });
     var redIcon = L.icon({
         iconUrl: '/images/red.png',
 
-        iconSize: [38, 95], // size of the icon
-        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
 
+        iconSize: [40, 100], // size of the icon
+        iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
+        popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
     })
 
     var yellowIcon = L.icon({
         iconUrl: '/images/yellow.png',
 
-        iconSize: [38, 95], // size of the icon
-        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-
+        iconSize: [40, 100], // size of the icon
+        iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
+        popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
     })
 </script>
-<div id="map" style="width:500px; height: 500px;">asdf</div>
+<div id="map" style="width:100%; height: 99%"></div>
+
 <script>
     initmap();
     $.ajax({
@@ -4115,12 +4124,11 @@
     }).done(function (response) {
         var json = JSON.parse(response);
 
-        json.forEach(function(item){
+        json.forEach(function (item) {
 
             addMarker(item);
             console.log(item);
         });
-        debugger
     });</script>
 </body>
 </html>
