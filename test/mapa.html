@@ -662,8 +662,16 @@ this._isTapValid()&&this._simulateEvent("click",i)}},_isTapValid:function(){retu
         map.setView(new L.LatLng(41.3944364, 2.1672282), 13);
         map.addLayer(osm);
     }
+
+    function addMarker(){
+        L.marker([41.3944364, 2.1672282]).addTo(map)
+            .bindPopup('Soc un lloc super sexy :^DD<hr> Best hackathon ever')
+    }
 </script>
 <div id="map" style="width:500px; height: 500px;">asdf</div>
-<script> initmap();</script>
+<script>
+    initmap();
+    addMarker();
+</script>
 </body>
 </html>
