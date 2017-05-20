@@ -3,6 +3,7 @@ import os
 
 from model.location_service import LocationService
 
+
 class Locations(object):
     def __init__(self):
         self._location_service = LocationService()
@@ -22,9 +23,18 @@ class Locations(object):
         else:
             return self._location_service.get_location(id)
 
-cherrypy.config.update({'server.socket_host': '127.0.0.1',
-                            'server.socket_port': 8080, })
 
-conf = {'/images': {'tools.staticdir.on': True,
-        'tools.staticdir.dir': os.path.abspath('./images/')}}
+cherrypy.config.update({'server.socket_host': '127.0.0.1',
+                        'server.socket_port': 8080, })
+
+conf = {
+    '/images': {
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': os.path.abspath('./images/')
+    },
+    '/leaflet':{
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': os.path.abspath('./leaflet/')
+    }
+}
 cherrypy.quickstart(Locations(), '/', config=conf)
