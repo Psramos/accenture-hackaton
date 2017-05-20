@@ -35,3 +35,7 @@ class LocationsPDO:
 
         return result.to_dict(orient='records')
 
+    def post_location(self, name, lat, lon):
+        query = "INSERT INTO public.train COLUMNS(venue_name, latitude, longitude) VALUES (%s, %s, %s)" % (name, lat, lon)
+
+        

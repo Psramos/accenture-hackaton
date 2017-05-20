@@ -54,5 +54,5 @@ class LocationService:
 
         return json.dumps(districts)
 
-    def get_location(self, id):
-        return "Location with id %s" % id
+    def post_location(self, name, lat, lon):
+        return 'ok'

@@ -1,3 +1,5 @@
+import json
+
 import cherrypy
 import os
 
@@ -17,11 +19,17 @@ class Locations(object):
         return file("test/mapa.html")
 
     @cherrypy.expose
-    def locations(self, id=None):
-        if id is None:
+    def locations(self, **kwargs):
+        if len(kwargs) == 0:
             return self._location_service.get_all_locations()
         else:
-            return self._location_service.get_location(id)
+            lat  = kwargs['lat']
+
+            lon  = kwargs['lon']
+
+            name = kwargs['name']
+
+            #print lat
 
     @cherrypy.expose
     def districts(self):
