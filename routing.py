@@ -35,6 +35,10 @@ conf = {
     '/leaflet':{
         'tools.staticdir.on': True,
         'tools.staticdir.dir': os.path.abspath('./leaflet/')
+    },
+    '/js': {
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': os.path.abspath('./js/')
     }
 }
 cherrypy.quickstart(Locations(), '/', config=conf)
