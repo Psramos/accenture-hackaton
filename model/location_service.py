@@ -35,10 +35,15 @@ class LocationService:
                     is_inside = DistanceCalculator.is_inside(float(lat), float(lon), json_poly)
 
                     if is_inside:
-                       if 'score' in district:
-                           district['score'] += location['score']
-                       else:
-                           district['score'] = location['score']
+                        score = location['score']
+
+                        try:
+                            if 'score' in district:
+                               district['score'] += (float(score) % 5)
+                            else:
+                               district['score'] = (float(score) % 5)
+                        except ValueError:
+                            continue
 
         return json.dumps(districts)
 
