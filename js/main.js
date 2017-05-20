@@ -32,13 +32,52 @@ function addDistrict(item) {
         case item.score > 0.6:
             color1 = '#2a9172';
             break;
-        case item.score > 0.4:
+        case item.score > 0.50:
             color1 = '#c48819';
             break;
         default:
             color1 = '#c43b19';
     }
-    var districtLayer = new L.polygon(json, {color: color1});
+    var itemName = "";
+    switch(item.district) {
+        case "latHorta":
+            itemName = "Horta";
+            break;
+        case "latStAndreu":
+            itemName = "Sant Andreu";
+            break;
+        case "latStMarti":
+            itemName = "Sant Marti";
+            break;
+        case "latCvella":
+            itemName = "Ciutat Vella";
+            break;
+        case "latSants":
+            itemName = "Sants";
+            break;
+        case "latLesCorts":
+            itemName = "Les Corts";
+            break;
+        case "latStG":
+            itemName = "Sant Gervasi";
+            break;
+        case "latGracia":
+            itemName = "Gracia";
+            break;
+        case "latEixample":
+            itemName = "Eixample";
+            break;
+        case "latNouBarris":
+            itemName = "Nou Barris";
+            break;
+
+    }
+    var html = itemName + "<hr>";
+    html += "Score = " + (parseFloat((item.score*100)).toFixed(2))+"%<br>";
+    html += "Total Venues = " + item.total;
+    var districtLayer = new L.polygon(json, {color: color1})
+            .bindPopup(html);
+
     markers.push(districtLayer);
     map.addLayer(districtLayer);
 }
