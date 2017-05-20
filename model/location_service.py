@@ -1,12 +1,19 @@
 import json
 import os
 
+from database.locations_pdo import LocationsPDO
+
 
 class LocationService:
     def __init__(self):
+        self.__pdo = LocationsPDO()
         pass
 
     def get_all_locations(self, lat, lon, distance):
+        self.__pdo.connect()
+
+        return json.dumps(self.__pdo.get_locations(lat, lon))
+
         return json.dumps(
            [
                 {
@@ -26,12 +33,12 @@ class LocationService:
                     "score": 1
                 },
                 {
-                       "id": "OrSQGJ8j4eQxyZ9pMtNG4FewGE",
-                       "description": "On pasa la magia",
-                       "name": "Paucueva",
-                       "lat": "40.4233873",
-                       "lon": "2.1598064",
-                       "score": 0.3,
+                   "id": "OrSQGJ8j4eQxyZ9pMtNG4FewGE",
+                   "description": "On pasa la magia",
+                   "name": "Paucueva",
+                   "lat": "40.4233873",
+                   "lon": "2.1598064",
+                   "score": 0.3,
                 }
             ]
         )
