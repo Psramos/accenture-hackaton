@@ -1,6 +1,6 @@
 #usage: python testrouting.py, naveagodr: http://127.0.0.1:8080/
 
-
+import os
 import cherrypy
 import json
 import subprocess
@@ -20,8 +20,16 @@ class DashboardSEO(object):
     def admin(self):
        # return file("src/Dashboard/admin.html");
         return "<html><body><div>Soc un test admin</div></body></html>"
+
+    def mapa(self):
+        return file("test/mapa.html")
     index.exposed = True
     admin.exposed = True
+    mapa.exposed = True
+
+
+static_handler = cherrypy.tools.staticdir.handler(section="/", dir="/leaflet/")
+cherrypy.tree.mount(static_handler, '/leaflet/')
 
 cherrypy.server.socket_host = get_ip_address()
 cherrypy.quickstart(DashboardSEO())
