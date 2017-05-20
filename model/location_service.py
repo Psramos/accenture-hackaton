@@ -10,13 +10,17 @@ class LocationService:
         return json.dumps(
            [
                 {
-                    "id": "paraguay",
+                    "id": "OrSQGJ8j4eQxyZ9pMtNG4FewGZ",
+                    "description":"Aqui de chilling en la hackaton",
+                    "name": "Paraguay",
                     "lat":"41.4172754",
                     "lon":"2.206039",
-                    "score": 0.5
+                    "score": 0.5,
                 },
                 {
-                    "id": "bburguer",
+                    "id": "OrSQGJ8j4eQxyZ9pMtNG4FewGS",
+                    "description":"On es la cambrera sexy?",
+                    "name": "Bburguer",
                     "lat":"41.3807892",
                     "lon":"2.1478704",
                     "score": 1
