@@ -1,5 +1,4 @@
 import json
-import os
 
 from database.locations_pdo import LocationsPDO
 from model.distance_calculator import DistanceCalculator
@@ -54,5 +53,7 @@ class LocationService:
 
         return json.dumps(districts)
 
-    def post_location(self, name, lat, lon):
-        return 'ok'
+    def post_location(self, name, lat, lon, wheelchair):
+        self.__pdo.connect()
+
+        self.__pdo.post_location(name, lat, lon, wheelchair)

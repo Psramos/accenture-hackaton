@@ -23,13 +23,15 @@ class Locations(object):
         if len(kwargs) == 0:
             return self._location_service.get_all_locations()
         else:
-            lat  = kwargs['lat']
+            lat        = kwargs['lat']
 
-            lon  = kwargs['lon']
+            lon        = kwargs['lon']
 
-            name = kwargs['name']
+            name       = kwargs['name']
 
-            #print lat
+            wheelchair = kwargs['wheelchair']
+
+            return self._location_service.post_location(name, lat, lon, wheelchair)
 
     @cherrypy.expose
     def districts(self):
