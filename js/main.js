@@ -1,27 +1,25 @@
 var map;
 
 var greenIcon = L.icon({
-    iconUrl: '/images/green.png',
+    iconUrl: '/images/Verde.png',
 
-    iconSize: [40, 100], // size of the icon
-    iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
+    iconSize: [50, 70], // size of the icon
+    iconAnchor: [25, 65], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -70] // point from which the popup should open relative to the iconAnchor
 });
 var redIcon = L.icon({
-    iconUrl: '/images/red.png',
-
-
-    iconSize: [40, 100], // size of the icon
-    iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
+    iconUrl: '/images/Rojo.png',
+    iconSize: [50, 70], // size of the icon
+    iconAnchor: [25, 65], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -70] // point from which the popup should open relative to the iconAnchor
 });
 
 var yellowIcon = L.icon({
-    iconUrl: '/images/yellow.png',
+    iconUrl: '/images/Amarillo.png',
 
-    iconSize: [40, 100], // size of the icon
-    iconAnchor: [20, 90], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -100] // point from which the popup should open relative to the iconAnchor
+    iconSize: [50, 70], // size of the icon
+    iconAnchor: [25, 65], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -70] // point from which the popup should open relative to the iconAnchor
 });
 
 function addDistrict(item) {
@@ -34,13 +32,52 @@ function addDistrict(item) {
         case item.score > 0.6:
             color1 = '#2a9172';
             break;
-        case item.score > 0.4:
+        case item.score > 0.50:
             color1 = '#c48819';
             break;
         default:
             color1 = '#c43b19';
     }
-    var districtLayer = new L.polygon(json, {color: color1});
+    var itemName = "";
+    switch(item.district) {
+        case "latHorta":
+            itemName = "Horta";
+            break;
+        case "latStAndreu":
+            itemName = "Sant Andreu";
+            break;
+        case "latStMarti":
+            itemName = "Sant Marti";
+            break;
+        case "latCvella":
+            itemName = "Ciutat Vella";
+            break;
+        case "latSants":
+            itemName = "Sants";
+            break;
+        case "latLesCorts":
+            itemName = "Les Corts";
+            break;
+        case "latStG":
+            itemName = "Sant Gervasi";
+            break;
+        case "latGracia":
+            itemName = "Gracia";
+            break;
+        case "latEixample":
+            itemName = "Eixample";
+            break;
+        case "latNouBarris":
+            itemName = "Nou Barris";
+            break;
+
+    }
+    var html = itemName + "<hr>";
+    html += "Score = " + (parseFloat((item.score*100)).toFixed(2))+"%<br>";
+    html += "Total Venues = " + item.total;
+    var districtLayer = new L.polygon(json, {color: color1})
+            .bindPopup(html);
+
     markers.push(districtLayer);
     map.addLayer(districtLayer);
 }
@@ -91,7 +128,17 @@ function addMarker(item) {
 
 
     html = item.name + "<hr>";
-    html += item.description;
+    html += "Keywords: " + item.description+"<br>";
+    //html += "Rating: " + item.rating;
+
+    numStars = Math.floor(item.rating);
+    if (numStars > 0) html += "Rating: ";
+    var i = 0;
+    while (i < numStars) {
+        html += "<img style='width:15px;height:15px;' src='images/star_full.png'/>"
+        ++i;
+    }
+    if ((item.rating)%1 > 0.5) html += "<img style='width:15px;height:15px;' src='images/star1.png'/>";
 
     var id = item.id;
     var markerLayer = new L.marker([item.lat, item.lon], {icon: icon})
