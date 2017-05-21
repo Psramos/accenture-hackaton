@@ -1,6 +1,5 @@
 from shapely.geometry import Point, Polygon
 
-
 class DistanceCalculator:
     def __init__(self):
         pass

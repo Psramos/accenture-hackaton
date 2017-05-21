@@ -10,6 +10,8 @@ class LocationsPDO:
     def __init__(self):
         self.__eng = None
 
+        self.__con = None
+
         pass
 
     def connect(self):
@@ -23,7 +25,7 @@ class LocationsPDO:
 
         self.__eng = sal.create_engine("redshift+psycopg2://%s:%s@%s:%s/%s" % (user, password, host, port, name),
                                        encoding='latin1')
-        self.__eng.connect()
+        self.__con = self.__eng.connect()
 
     def get_locations(self):
         result = pandas.read_sql_query("SELECT venue_id as id, venue_name as name, type as description, latitude as lat, longitude as lon, wheelchair_accessible, rating from public.train order by rating_fs", self.__eng)
@@ -35,3 +37,7 @@ class LocationsPDO:
 
         return result.to_dict(orient='records')
 
+    def post_location(self, name, lat, lon, wheelchair):
+        query  = "INSERT INTO public.train (venue_name, latitude, longitude, wheelchair_accessible) VALUES ('%s', '%s', '%s', '%s')" % (name, lat, lon, wheelchair)
+
+        self.__con.execute(query)
