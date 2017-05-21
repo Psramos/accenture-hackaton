@@ -39,7 +39,7 @@ function addDistrict(item) {
             color1 = '#c43b19';
     }
     var itemName = "";
-    switch(item.district) {
+    switch (item.district) {
         case "latHorta":
             itemName = "Horta";
             break;
@@ -73,10 +73,10 @@ function addDistrict(item) {
 
     }
     var html = itemName + "<hr>";
-    html += "Score = " + (parseFloat((item.score*100)).toFixed(2))+"%<br>";
+    html += "Score = " + (parseFloat((item.score * 100)).toFixed(2)) + "%<br>";
     html += "Total Venues = " + item.total;
     var districtLayer = new L.polygon(json, {color: color1})
-            .bindPopup(html);
+        .bindPopup(html);
 
     markers.push(districtLayer);
     map.addLayer(districtLayer);
@@ -99,6 +99,47 @@ function drawDistricts() {
 
 }
 
+function calculateWheelChair(lat, lon) {
+    var point = L.latLng(lat, lon);
+    var total = 0;
+    var totalItems = 0;
+    jQuery.ajax({
+        url: "/locations",
+        context: document.body
+    }).done(function (response) {
+        var json = JSON.parse(response);
+        var total = 0;
+        var totalItems = 0;
+        json.forEach(function (item) {
+            var latlng = L.latLng(item.lat, item.lon);
+            if (distance(point, latlng) < 250) {
+                if (!isNaN(parseFloat(item.wheelchair_accessible))) {
+                    total += parseFloat(item.wheelchair_accessible);
+                    totalItems += 1;
+                }
+            }
+
+        });
+        var wheelchair = false;
+        if (total / totalItems > 0.55) wheelchair = true;
+        jQuery.ajax({
+            url: "/locations?lat=" + lat + '&lon=' + lon + '&wheelchair=' + parseFloat(parseInt(total) / parseInt(totalItems)) + '&name=Google_API_NAME',
+            context: document.body
+        }).done(function (response) {
+            var item = {
+                'name': 'Google_API_NAME',
+                'lat' : lat,
+                'lon' : lon,
+                'rating' : 0,
+                'wheelchair_accessible' : parseFloat(parseInt(total) / parseInt(totalItems)),
+            };
+            addMarker(item);
+        });
+
+    });
+
+
+}
 function initmap() {
     map = new L.Map('map');
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -108,8 +149,16 @@ function initmap() {
     map.addLayer(osm);
 
     map.on("moveend", function () {
-        if (venues == 1)drawMarkers(500);
-    })
+        if (venues == 1) drawMarkers(500);
+    });
+
+    map.on('click', function (e) {
+        lat = e.latlng.lat;
+        lon = e.latlng.lng;
+        if (addMode == 1) {
+            calculateWheelChair(lat, lon);
+        }
+    });
 
 }
 
@@ -119,7 +168,7 @@ function addMarker(item) {
         case (item.wheelchair_accessible > 0.7):
             icon = greenIcon;
             break;
-        case (item.wheelchair_accessiblegit  > 0.5):
+        case (item.wheelchair_accessible > 0.5):
             icon = yellowIcon;
             break;
         default:
@@ -128,7 +177,7 @@ function addMarker(item) {
 
 
     html = item.name + "<hr>";
-    html += "Keywords: " + item.description+"<br>";
+    //html += "Keywords: " + item.description + "<br>";
     //html += "Rating: " + item.rating;
 
     numStars = Math.floor(item.rating);
@@ -138,8 +187,8 @@ function addMarker(item) {
         html += "<img style='width:15px;height:15px;' src='images/star_full.png'/>"
         ++i;
     }
-    if ((item.rating)%1 > 0.5) html += "<img style='width:15px;height:15px;' src='images/star1.png'/>";
-
+    if ((item.rating) % 1 > 0.5) html += "<img style='width:15px;height:15px;' src='images/star1.png'/>";
+    html += "Accuracy wheelchair: " + item.wheelchair_accessible;
     var id = item.id;
     var markerLayer = new L.marker([item.lat, item.lon], {icon: icon})
         .bindPopup(html);
@@ -205,13 +254,20 @@ if (Number.prototype.toDegrees === undefined) {
 }
 var district = 0;
 var venues = 0;
+var addMode = 0;
 function setDistrict() {
     district = 1;
     venues = 0;
+    addMode = 0;
     drawDistricts();
 }
-function setVenues(){
+function setVenues() {
     venues = 1;
     district = 0;
+    addMode = 0;
     drawMarkers(1000)
+}
+function setAddMode() {
+    district = 0;
+    addMode = 1;
 }
