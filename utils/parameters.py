@@ -14,8 +14,4 @@ class Parameters:
         self._parameters_file = yaml.load(stream)
 
     def get_parameter(self, parameter):
-        for key, value in self._parameters_file.iteritems():
-            if key == parameter:
-                return value
-
-        raise Exception('Key %s not found' % parameter)
+        return self._parameters_file[parameter]
